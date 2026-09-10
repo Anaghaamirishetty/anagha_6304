@@ -485,3 +485,351 @@ Use history-rewriting tools such as:
 ```bash
 git filter-repo
 ```
+1. Maven Java Project
+Step 1: Clone the GitHub Repository
+git clone <repository-url>
+cd <project-folder>
+Step 2: Import into Eclipse
+Eclipse
+→ File
+→ Import
+→ Maven
+→ Existing Maven Projects
+→ Browse to project folder
+→ Finish
+Step 3: Check Maven Project Structure
+project/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   └── resources/
+│   └── test/
+│       └── java/
+└── target/
+src/main/java → Java source code
+src/main/resources → application resources
+src/test/java → test code
+pom.xml → Maven configuration
+target → generated build output
+Step 4: Check pom.xml
+
+Dependencies go inside:
+
+<dependencies>
+    <dependency>
+        <groupId>...</groupId>
+        <artifactId>...</artifactId>
+        <version>...</version>
+    </dependency>
+</dependencies>
+
+Example Gson dependency:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>
+Step 5: Maven Build
+
+From Eclipse Terminal:
+
+mvn clean install
+
+Or:
+
+mvn clean package
+Step 6: Run a Java Application
+
+If the project contains a main() method:
+
+Right-click Java class
+→ Run As
+→ Java Application
+
+Do not use mvn run. run is not a standard Maven lifecycle phase.
+
+Step 7: Run Tests
+mvn test
+
+Test reports are generated inside:
+
+target/surefire-reports/
+Useful Maven Commands
+mvn clean
+mvn compile
+mvn test
+mvn package
+mvn install
+mvn clean package
+mvn clean install
+Skip Tests
+mvn package -DskipTests
+View Dependency Tree
+mvn dependency:tree
+Debug Maven
+mvn -X
+2. Maven Web Project
+Step 1: Clone Repository
+git clone <repository-url>
+cd <project-folder>
+Step 2: Import into Eclipse
+File
+→ Import
+→ Maven
+→ Existing Maven Projects
+→ Select project folder
+→ Finish
+Step 3: Web Project Structure
+web_project/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   ├── resources/
+│   │   └── webapp/
+│   │       └── WEB-INF/
+│   │           └── web.xml
+│   └── test/
+│       └── java/
+└── target/
+Step 4: Configure WAR Packaging
+
+In pom.xml:
+
+<packaging>war</packaging>
+
+The output will be:
+
+target/web_project.war
+Step 5: Add Servlet Dependency
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+
+provided means the Servlet API is supplied by the web server such as Tomcat.
+
+Step 6: Configure Java Version
+
+Example compiler plugin:
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.11.0</version>
+    <configuration>
+        <source>17</source>
+        <target>17</target>
+    </configuration>
+</plugin>
+Step 7: Build the WAR
+mvn clean package
+
+Check:
+
+target/
+└── web_project.war
+Step 8: Configure Tomcat
+
+In Eclipse:
+
+Window
+→ Show View
+→ Servers
+
+Then:
+
+New Server
+→ Apache
+→ Tomcat v9.0
+→ Select Tomcat installation directory
+→ Finish
+Step 9: Add Project to Tomcat
+Right-click Tomcat server
+→ Add and Remove
+→ Select web_project
+→ Add
+→ Finish
+Step 10: Start Tomcat
+Right-click Tomcat
+→ Start
+
+Or:
+
+Right-click project
+→ Run As
+→ Run on Server
+→ Tomcat v9.0
+→ Finish
+Step 11: Open Web Application
+
+If Tomcat is running on port 8080:
+
+http://localhost:8080/web_project/
+
+If your Tomcat uses another port, replace 8080.
+
+3. Maven Web Project — Complete Practical Flow
+GitHub Repository
+       ↓
+git clone
+       ↓
+Import Existing Maven Project
+       ↓
+Check pom.xml
+       ↓
+Add Servlet dependency
+       ↓
+Set WAR packaging
+       ↓
+Configure compiler plugin
+       ↓
+mvn clean package
+       ↓
+target/web_project.war
+       ↓
+Tomcat
+       ↓
+Run on Server
+       ↓
+Browser
+4. Important Maven Concepts
+Dependency
+
+A library required by your application.
+
+<dependency>
+    ...
+</dependency>
+Plugin
+
+Used to perform/build/configure Maven tasks.
+
+<plugin>
+    ...
+</plugin>
+JAR
+
+Used mainly for Java libraries/applications.
+
+myapp.jar
+WAR
+
+Used for Java web applications.
+
+mywebapp.war
+target
+
+Contains Maven-generated output:
+
+target/
+├── classes/
+├── test-classes/
+├── surefire-reports/
+└── web_project.war
+Maven Lifecycle
+validate
+   ↓
+compile
+   ↓
+test
+   ↓
+package
+   ↓
+verify
+   ↓
+install
+   ↓
+deploy
+5. Common Practical Errors
+Java version error
+
+Check Java:
+
+java -version
+
+Check Maven:
+
+mvn -version
+
+Make sure Eclipse and Maven are using the required Java version.
+
+Dependency problem
+mvn dependency:tree
+Clean previous build
+mvn clean
+Rebuild everything
+mvn clean install
+Maven POM errors
+
+Check:
+
+pom.xml
+
+for incorrect:
+
+groupId
+artifactId
+version
+dependency
+plugin
+XML tags
+6. Git + Maven Practical Flow
+
+If the instructor gives a GitHub repository:
+
+git clone <repository-url>
+cd <project-folder>
+
+Work on the project, then:
+
+git status
+git add .
+git commit -m "Updated Maven project"
+git push origin main
+
+Check remote:
+
+git remote -v
+
+Add a new remote:
+
+git remote add origin <repository-url>
+⭐ Most Important Commands to Memorize
+# Git
+git clone <url>
+git status
+git add .
+git commit -m "message"
+git remote -v
+git remote add origin <url>
+git push -u origin main
+
+# Maven
+mvn clean
+mvn compile
+mvn test
+mvn package
+mvn clean package
+mvn clean install
+mvn dependency:tree
+mvn -DskipTests package
+
+# Run Java
+# Eclipse → Right-click class → Run As → Java Application
+
+# Run Web Project
+# Eclipse → Right-click project → Run As → Run on Server
+🧠 One-line memory trick
+
+Java Maven:
+clone → import → pom → clean package → Java Application
+
+Web Maven:
+clone → import → pom → WAR → clean package → Tomcat → browser
+
+This is formatted so you can directly paste it into your README.md.
