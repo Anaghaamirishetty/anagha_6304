@@ -1,0 +1,365 @@
+# Git Commands – Practical Reference
+
+## 1. Git Version
+
+Check installed Git version:
+
+```bash
+git --version
+2. Configure Git
+
+Set username globally:
+
+git config --global user.name "Your Name"
+
+Set email globally:
+
+git config --global user.email "youremail@example.com"
+
+View Git configuration:
+
+git config --list
+3. Repository Management
+Initialize a Repository
+git init
+
+Creates a new local Git repository.
+
+Clone a Repository
+git clone https://github.com/username/repository.git
+
+Then enter the repository:
+
+cd repository
+4. Remote Repository Commands
+Check Connected Remotes
+git remote -v
+Add a New Remote
+git remote add origin https://github.com/username/repository.git
+Push to Remote
+git push origin main
+First Push / Set Upstream
+git push -u origin main
+
+For a feature branch:
+
+git push --set-upstream origin feature-branch
+Pull Changes
+
+Downloads changes and merges them:
+
+git pull origin main
+Fetch Changes
+
+Downloads changes WITHOUT merging:
+
+git fetch origin
+Fetch a Specific Branch
+git fetch origin feature-branch
+Remove a Remote
+git remote remove origin
+Rename a Remote
+git remote rename origin upstream
+Change Remote URL
+git remote set-url origin https://github.com/username/new-repository.git
+Show Remote Information
+git remote show origin
+Remove Deleted Remote Branch References
+git remote prune origin
+5. Staging and Committing
+Check Status
+git status
+
+Shows:
+
+Modified files
+Untracked files
+Staged files
+Current branch
+Add One File
+git add filename.txt
+Add All Changes
+git add .
+Commit Changes
+git commit -m "Add new feature"
+6. Normal GitHub Workflow
+git status
+git add .
+git commit -m "Updated project"
+git push origin main
+
+For first push:
+
+git push -u origin main
+7. Branching
+List Local Branches
+git branch
+List All Branches
+git branch -a
+List Remote Branches
+git branch -r
+Create a Branch
+git branch feature-login
+Create and Switch to a Branch
+git checkout -b feature-login
+Switch Branch
+git checkout feature-login
+Delete Local Branch
+git branch -d feature-login
+
+Force delete:
+
+git branch -D feature-login
+8. Merge
+
+Switch to main:
+
+git checkout main
+
+Merge feature branch:
+
+git merge feature-login
+
+Typical workflow:
+
+git checkout main
+git pull origin main
+git merge feature-login
+git push origin main
+9. Rebase
+
+Fetch latest remote information:
+
+git fetch origin
+
+Rebase current branch onto remote main:
+
+git rebase origin/main
+10. Viewing History
+
+View commit history:
+
+git log
+
+Short version:
+
+git log --oneline
+
+View a particular commit:
+
+git show <commit-hash>
+11. View Changes
+
+View unstaged changes:
+
+git diff
+12. Undo Changes
+Discard Changes Before Staging
+git restore filename
+
+Example:
+
+git restore script.py
+
+WARNING: This discards local changes to the file.
+
+Remove File from Staging
+
+If you accidentally run:
+
+git add file.txt
+
+Use:
+
+git reset file.txt
+
+The changes remain in the working directory.
+
+Undo Last Commit Message
+
+If the commit has NOT been pushed:
+
+git commit --amend -m "Correct commit message"
+Revert a Commit
+git revert <commit-hash>
+
+Creates a new commit that reverses the selected commit.
+
+13. Git Stash
+
+Save uncommitted changes:
+
+git stash
+
+Switch branch:
+
+git switch another-branch
+
+Return later:
+
+git switch main
+
+Restore stashed changes:
+
+git stash apply
+14. Merge Conflicts
+
+Check conflict:
+
+git status
+
+Open the conflicted file.
+
+Git may show:
+
+<<<<<<< HEAD
+Your changes
+
+Other branch changes
+
+feature-branch
+
+Edit the file and keep the required code.
+
+Remove:
+
+<<<<<<<
+=======
+>>>>>>>
+
+Then:
+
+git add app.js
+
+Complete merge:
+
+git commit
+
+If you want to cancel the merge:
+
+git merge --abort
+15. Git Ignore
+
+Create:
+
+touch .gitignore
+
+Example .gitignore:
+
+*.log
+node_modules/
+*.bak
+secret_file.txt
+
+Example:
+
+folder/*
+!folder/important_file.txt
+
+.gitignore prevents unwanted files from being tracked.
+
+16. Git Blame
+
+See who changed each line:
+
+git blame script.py
+
+For a particular line range:
+
+git blame -L 25,25 script.py
+17. Recover Deleted Branch
+
+View reflog:
+
+git reflog
+
+Recover branch:
+
+git checkout -b feature-ui <commit-hash>
+18. Check Merged Branches
+git branch --merged
+19. Delete Multiple Local Branches
+git branch -d feature-a feature-b feature-c
+20. Patch
+
+Create a patch from the latest commit:
+
+git format-patch -1
+
+Create patch from a specific commit:
+
+git format-patch -1 <commit-hash>
+
+Create patches for last 3 commits:
+
+git format-patch -3
+
+Apply a patch:
+
+git apply my-changes.patch
+
+Apply a patch created using git format-patch:
+
+git am 0001-commit-message.patch
+21. Remote Branch Workflow
+
+Update main:
+
+git checkout main
+git pull origin main
+
+Switch to feature branch:
+
+git checkout feature/login
+
+Merge latest main:
+
+git merge main
+
+Push feature branch:
+
+git push origin feature/login
+22. Delete Remote Branch
+git push origin --delete feature/login
+23. Non-Fast-Forward Error
+
+If:
+
+git push
+
+is rejected because the remote has newer changes:
+
+git pull origin main --rebase
+
+Then:
+
+git push origin main
+24. Complete Collaborative Workflow
+Step 1 – Clone
+git clone <repository-url>
+cd repository
+Step 2 – Create Feature Branch
+git checkout -b feature/my-feature
+Step 3 – Make Changes
+
+Edit/create files.
+
+Step 4 – Stage
+git add .
+Step 5 – Commit
+git commit -m "Add my feature"
+Step 6 – Push Feature Branch
+git push -u origin feature/my-feature
+Step 7 – Update Main
+git checkout main
+git pull origin main
+Step 8 – Update Feature Branch
+git checkout feature/my-feature
+git merge main
+Step 9 – Push Updated Feature Branch
+git push origin feature/my-feature
+Step 10 – Create Pull Request
+
+Go to GitHub and create a Pull Request from:
+
+feature/my-feature → main
